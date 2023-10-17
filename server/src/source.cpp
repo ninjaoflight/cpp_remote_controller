@@ -18,7 +18,7 @@ int main() {
 		auto result = socket.recv(request, zmq::recv_flags::none);
 
 		if (result) {
-			std::cout << std::format("Server<-{}\n", request.to_string());
+			std::cout << std::format("-[Client]> {}\n", request.to_string());
 
 			socket.send(
 			    zmq::buffer(std::format("Hello {}!", request.to_string())),
