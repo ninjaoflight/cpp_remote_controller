@@ -1,10 +1,10 @@
 #include "SDL_error.h"
 #include <chrono>
+#include <controller.hpp>
 #include <format>
 #include <iostream>
 #include <string>
 #include <zmq.hpp>
-#include <controller.hpp>
 
 int main(int argc, char **argv) {
 	using namespace std::chrono_literals;
@@ -24,14 +24,17 @@ int main(int argc, char **argv) {
 	Controller controller;
 
 	if (!controller.setController()) {
-		std::cout << "Error: " << SDL_GetError() << '\n';
+		if (controller.getControllers().size() == 0) {
+			std::cout << "No controllers connected\n";
+		} else {
+			std::cout << "Error: " << SDL_GetError() << '\n';
+		}
 		return 1;
-	}
-	else {
+	} else {
 		std::cout << "Controller connected\n";
-		std::cout << std::format("Controller name: {}\n", controller.getControllerName());
+		std::cout << std::format("Controller name: {}\n",
+		                         controller.getControllerName());
 	}
-
 
 	zmq::context_t context{1};
 
