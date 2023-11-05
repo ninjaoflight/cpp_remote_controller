@@ -1,8 +1,10 @@
+#include "SDL_error.h"
 #include <chrono>
 #include <format>
 #include <iostream>
 #include <string>
 #include <zmq.hpp>
+#include <controller.hpp>
 
 int main(int argc, char **argv) {
 	using namespace std::chrono_literals;
@@ -18,6 +20,18 @@ int main(int argc, char **argv) {
 	if (argc == 2) {
 		server_address = argv[1];
 	}
+
+	Controller controller;
+
+	if (!controller.setController()) {
+		std::cout << "Error: " << SDL_GetError() << '\n';
+		return 1;
+	}
+	else {
+		std::cout << "Controller connected\n";
+		std::cout << std::format("Controller name: {}\n", controller.getControllerName());
+	}
+
 
 	zmq::context_t context{1};
 

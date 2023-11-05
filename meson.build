@@ -6,7 +6,10 @@ project(
 )
 
 
-
+sdl2_dep = dependency(
+                'sdl2',
+                fallback: ['sdl2', 'sdl2_dep']
+)
 cppzmq_dep = dependency(
                 'cppzmq',
                 fallback: ['cppzmq', 'cppzmq_dep']
